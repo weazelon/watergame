@@ -1838,17 +1838,23 @@ function showPanel(id){
 }
 function hidePanels(){ overlay.classList.remove('show'); }
 
-/* ---------- persistence ---------- */
+/* ---------- persistence ----------
+   window.storage exists only inside the Claude artifact viewer. Hosted on a
+   normal website, the same data goes to the browser's localStorage instead,
+   under the same key and format. */
+const store = window.storage || {
+  async set(k,v){ localStorage.setItem(k,v); },
+  async get(k){ const v=localStorage.getItem(k); return v==null ? null : { value:v }; }
+};
 async function saveProgress(){
   try{
-    if(window.storage)
-      await window.storage.set('watersort-level', JSON.stringify({level, stars:starsBest, dark:darkMode, unlocked:allUnlocked}));
+    await store.set('watersort-level', JSON.stringify({level, stars:starsBest, dark:darkMode, unlocked:allUnlocked}));
   }catch(e){}
 }
 async function loadProgress(){
   try{
-    if(window.storage){
-      const r=await window.storage.get('watersort-level');
+    {
+      const r=await store.get('watersort-level');
       if(r && r.value){
         try{
           const d=JSON.parse(r.value);
