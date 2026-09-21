@@ -252,6 +252,11 @@
   .stars{display:flex; align-items:center; justify-content:center; gap:8px; height:72px; margin:2px 0 8px;}
   .win-lvl{font-weight:800; letter-spacing:.14em; color:var(--dim); font-size:14px; margin-top:-2px;}
   @media (hover:hover) and (pointer:fine){ #thumbUndo{display:none;} }
+  #ver{
+    position:fixed; right:6px; bottom:3px; z-index:30;
+    font-size:10px; font-weight:700; letter-spacing:.06em;
+    color:var(--dim); opacity:.55; pointer-events:none; user-select:none;
+  }
   .star{opacity:0; transform:scale(0);}
   .star.on{animation:starpop .5s cubic-bezier(.34,1.66,.5,1) forwards;}
   .star.off{animation:starfade .35s ease-out forwards;}
@@ -428,6 +433,8 @@
 (() => {
 const COLORS = ['#F7E33D','#6BC93E','#2F7BE0','#E0392C','#FF8C00','#35C4E3','#FF69B4','#FFDEAD','#7B5643','#7A3FC7','#1B5E20','#673147'];
 const CAP = 4;
+const VERSION = 'v1.0.0';
+document.addEventListener('DOMContentLoaded', ()=>{ const v=document.getElementById('ver'); if(v) v.textContent=VERSION; });
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* Cup artwork */
@@ -1949,5 +1956,6 @@ document.addEventListener('pointerdown', ()=>{
 loadProgress().then(lv=>startLevel(lv,false));
 })();
 </script>
+<div id="ver"></div>
 </body>
 </html>
